@@ -1,6 +1,13 @@
 ﻿@model CliniCare360.Models.Users
 
 <div class="container mt-4">
+    @if (TempData["MessaggioConfermaDisdetta"] != null)
+    {
+        <div class="alert  alert-success  alert-dismissible fade show" role="alert">
+            @TempData["MessaggioConfermaDisdetta"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
     <div class="profile-header">
         <h2>Profilo di @Model.Nome @Model.Cognome</h2>
 
@@ -26,6 +33,7 @@
                 {
                     <a href="@Url.Action("DettaglioApp", "Appuntamenti", new { id = visita.AppId })" class="text-decoration-none">
                         <div class="appuntamento-item d-flex justify-content-around align-items-baseline">
+
                             @if (Model.ImgUser != null && Model.ImgUser.Length > 0)
                             {
                                 string imgBase64 = Convert.ToBase64String(visita.Prestazioni.ImgServizio);
@@ -39,6 +47,7 @@
                             <div class="ms-3">
                                 <div class="appuntamento-date">@visita.Data.ToString("dd/MM/yyyy") @visita.Ora.ToString(@"hh\:mm")</div>
                                 <div>@visita.Prestazioni.Descrizione</div>
+
                             </div>
                         </div>
                     </a>
@@ -46,33 +55,85 @@
                 }
             </div>
         </div>
-       
+
+
         <div class="col-md-6">
             <div class="profile-detail">
                 <h4 class="detail-title">Prossimi Appuntamenti</h4>
                 @foreach (var appuntamento in (IEnumerable<CliniCare360.Models.Appuntamenti>)ViewData["VisiteFuture"])
                 {
-                    <a href="@Url.Action("DettaglioApp", "Appuntamenti", new { id = appuntamento.AppId })" class="text-decoration-none">
-                        <div class="appuntamento-item d-flex justify-content-around align-items-center">
-                            @if (Model.ImgUser != null && Model.ImgUser.Length > 0)
-                            {
-                                string imgBase64 = Convert.ToBase64String(appuntamento.Prestazioni.ImgServizio);
-                                string imgSrc = String.Format("data:image/jpeg;base64,{0}", imgBase64);
-                                <img src="@imgSrc" alt="Immagine Prestazione" class="img-fluid" width="100" height="100" />
-                            }
-                            else
-                            {
-                                <img src="@Url.Content("~/Assets/uploads/imgDefault.jpg")" alt="Immagine Prestazione" class="img-fluid" width="100" height="100" />
-                            }
-                            <div class="ms-3">
-                                <div class="appuntamento-date">@appuntamento.Data.ToString("dd/MM/yyyy") @appuntamento.Ora.ToString(@"hh\:mm")</div>
-                                <div>@appuntamento.Prestazioni.Descrizione</div>
-                            </div>
+
+                    <div class="appuntamento-item d-flex justify-content-around align-items-center row">
+                        <div class="col-11">
+                            <a href="@Url.Action("DettaglioApp", "Appuntamenti", new { id = appuntamento.AppId })" class="text-decoration-none">
+                                @if (Model.ImgUser != null && Model.ImgUser.Length > 0)
+                                {
+                                    string imgBase64 = Convert.ToBase64String(appuntamento.Prestazioni.ImgServizio);
+                                    string imgSrc = String.Format("data:image/jpeg;base64,{0}", imgBase64);
+                                    <img src="@imgSrc" alt="Immagine Prestazione" class="img-fluid" width="100" height="100" />
+                                }
+                                else
+                                {
+                                    <img src="@Url.Content("~/Assets/uploads/imgDefault.jpg")" alt="Immagine Prestazione" class="img-fluid" width="100" height="100" />
+                                }
+                                <div class="ms-3">
+                                    <div class="appuntamento-date">@appuntamento.Data.ToString("dd/MM/yyyy") @appuntamento.Ora.ToString(@"hh\:mm")</div>
+                                    <div>@appuntamento.Prestazioni.Descrizione</div>
+
+                                </div>
+                            </a>
                         </div>
-                    </a>
+                        <div class="col-1">
+                            <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#exampleModal" data-id="@appuntamento.AppId">
+                                Disdici
+                            </button>
+
+                        </div>
+                    </div>
 
                 }
             </div>
         </div>
     </div>
 </div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Conferma didsdetta</h5>
+                <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">Sei sicuro di voler disdire l'appuntamento?</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-mdb-ripple-init data-mdb-dismiss="modal">Annulla</button>
+                @using (Html.BeginForm("DisdiciAppuntamento", "Appuntamenti", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="AppId" id="appId" value="" />
+                    <button type="submit" class="btn btn-danger">Conferma</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const disdiciButtons = document.querySelectorAll('[data-mdb-modal-init]');
+
+        disdiciButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const appId = this.getAttribute('data-id'); 
+                const modal = document.getElementById('exampleModal');
+                const appIdInput = modal.querySelector('#appId'); 
+
+                appIdInput.value = appId;  
+            });
+        });
+    });
+
+</script>
+
+
+
+
+

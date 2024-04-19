@@ -252,6 +252,27 @@ namespace CliniCare360.Controllers
         }
 
 
+        //accessibile solo all'admin disdice appuntamento, (riporta null il campo userid e stato su disponibile)
+        [HttpPost]
+        [Authorize(Roles = "user")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DisdiciAppuntamento(int AppId)
+        {
+            var appID = Convert.ToInt32(AppId);
+            var appuntamento = db.Appuntamenti.Find(appID);
+            if (appuntamento != null)
+            {                
+                appuntamento.Stato = "disponibile";
+                appuntamento.UserId = null;
+                db.Entry(appuntamento).State = EntityState.Modified;
+                db.SaveChanges();
+                TempData["MessaggioConfermaDisdetta"] = "La disdetta dell'appuntamento è stata confermata con successo";
+                return RedirectToAction("Profilo","Users",new {id= Convert.ToInt32(User.Identity.Name)}); 
+            }
+            return View("Error"); 
+        }
+
+
 
 
 
