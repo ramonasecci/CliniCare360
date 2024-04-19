@@ -1,0 +1,91 @@
+﻿@model CliniCare360.Models.Appuntamenti
+
+@{
+    ViewBag.Title = "Modifica Appuntamento";
+}
+
+<div class="container my-5">
+    @if (TempData["MessaggioConferma"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <div>@TempData["MessaggioConferma"].ToString()</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row align-items-start">
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="row">                       
+                        <div class="col-md-6">
+                            <h4 class="card-title">Paziente</h4>
+                            <p class="card-text fw-bold mb-1">@Model.Users.Nome @Model.Users.Cognome</p>
+                            <p class="card-text text-muted mb-0">@Model.Users.Email</p>
+
+                            @if (Model.Users.ImgUser != null && Model.Users.ImgUser.Length > 0)
+                            {
+                                string imgBase64 = Convert.ToBase64String(Model.Users.ImgUser);
+                                string imgSrc = String.Format("data:image/jpeg;base64,{0}", imgBase64);
+                                <img src="@imgSrc" alt="Immagine Profilo" class="rounded-circle img-fluid" width="150">
+                            }
+                            else
+                            {
+                                <img src="@Url.Content("~/Assets/uploads/profileDefault.jpg")" alt="Immagine Prestazione" class="rounded-circle img-fluid" width="150">
+                            }
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="card-title">Dettagli Appuntamento</h4>
+                            <p class="card-text"><strong>Data:</strong> @Model.Data.ToShortDateString()</p>
+                            <p class="card-text"><strong>Ora:</strong> @Model.Ora.ToString(@"hh\:mm")</p>
+                            <p class="card-text"><strong>Prestazione:</strong> @Model.Prestazioni.Nome</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <h5 class="card-header text-primary">Modifica Appuntamento</h5>
+                <div class="card-body">
+                    @using (Html.BeginForm("ModificaApp", "Appuntamenti", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.AppId)
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="mb-4">
+                            @Html.LabelFor(model => model.NoteVisita, "Valutazione Medica", new { @class = "form-label" })
+                            @Html.TextAreaFor(model => model.NoteVisita, new { rows = 3, cols = 100, @class = "form-control form-control-lg" })
+                        </div>
+
+                        <div class="form-outline mb-4">
+                            @Html.LabelFor(model => model.Stato, "Stato Appuntamento", new { @class = "form-label" })
+                            @Html.DropDownListFor(model => model.Stato, new SelectList(ViewBag.StatiAppuntamento, "Value", "Text"), "Seleziona uno stato", new { @class = "form-select form-select-lg" })
+                        </div>
+
+                        <div class=" mb-4">
+                            @Html.LabelFor(model => model.Prescrizione, "Prescrizione", new { @class = "form-label" })
+                            @Html.TextAreaFor(model => model.Prescrizione, new { rows = 3, cols = 100, @class = "form-control form-control-lg" })
+                        </div>
+
+                        <div class="form-outline mb-4">
+                            @Html.LabelFor(model => model.MedicoId, "Medico", new { @class = "form-label" })
+                            @Html.DropDownListFor(model => model.MedicoId, (SelectList)ViewBag.Medici, "Seleziona un Medico", new { @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.MedicoId, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="pt-1 mb-2">
+                            <button class="btn btn-primary btn-lg me-2" type="submit">Salva Modifiche</button>
+                            @Html.ActionLink("Indietro", "Index", null, new { @class = "btn btn-secondary btn-lg" })
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

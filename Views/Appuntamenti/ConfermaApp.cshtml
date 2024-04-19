@@ -1,0 +1,75 @@
+﻿@model CliniCare360.Models.Appuntamenti
+
+@{
+    ViewBag.Title = "Conferma Appuntamento";
+}
+
+<style>
+    .card-custom {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .detail-label {
+        font-weight: bold;
+        color: #17709C;
+        margin-bottom: 0;
+    }
+
+    .detail-info {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+    }
+
+    .action-buttons {
+        margin-top: 20px;
+    }
+
+    .btn-custom {
+        background-color: #17709C;
+        color: white;
+    }
+
+        .btn-custom:hover {
+            background-color: #10516d;
+            color:white;
+        }
+</style>
+
+<div class="container my-5">
+    <div class="card card-custom p-4">
+        <h2 class="text-center mb-4">Dettagli Appuntamento</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <p class="detail-label">Prestazione Selezionata</p>
+                <p class="detail-info">@Model.Prestazioni.Nome</p>
+
+                <p class="detail-label">Descrizione</p>
+                <p class="detail-info">@Model.Prestazioni.Descrizione</p>
+
+                <p class="detail-label">Costo</p>
+                <p class="detail-info">@Model.Prestazioni.Costo €</p>
+            </div>
+            <div class="col-md-6">
+                <p class="detail-label">Data</p>
+                <p class="detail-info">@Model.Data.ToString("dd/MM/yyyy")</p>
+
+                <p class="detail-label">Ora</p>
+                <p class="detail-info">@Model.Ora.ToString(@"hh\:mm")</p>
+
+                <p class="detail-label">Stato</p>
+                <p class="detail-info">@Model.Stato</p>
+            </div>
+        </div>
+        <div class="action-buttons text-center d-flex justify-content-center">
+            @using (Html.BeginForm("ConfermaAppuntamento", "Appuntamenti", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.AppId)
+                <button type="submit" class="btn btn-custom rounded-pill me-3">Conferma</button>
+            }
+            @Html.ActionLink("Torna agli Appuntamenti", "AppDispByPrest", new { id = Model.PrestazioneId }, new { @class = "btn btn-secondary rounded-pill" })
+        </div>
+    </div>
+</div>

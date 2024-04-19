@@ -1,0 +1,146 @@
+﻿@model CliniCare360.Models.Users
+
+<section class="h-100 gradient-custom">
+    <div class="container py-5 h-100">
+        <div class="row justify-content-center align-items-center h-100">
+            <div class="col-12 col-lg-9 col-xl-7">
+                <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                    <div class="card-body p-4 p-md-5">
+                        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Crea il Tuo Account</h3>
+
+
+                        @using (Html.BeginForm("Create", "Users", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(model => model.Ruolo)
+
+                            if (TempData["ErrorMessage"] != null)
+                            {
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    @TempData["ErrorMessage"]
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            }
+
+                            <div class="row">
+
+                                <div class="col-md-6 mb-4">
+                                    <div data-mdb-input-init class="form-outline">
+                                        @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                                        @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "form-label" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger d-block" })
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <div data-mdb-input-init class="form-outline">
+                                        @Html.EditorFor(model => model.Cognome, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                                        @Html.LabelFor(model => model.Cognome, htmlAttributes: new { @class = "form-label" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Cognome, "", new { @class = "text-danger d-block" })
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6 mb-4 d-flex align-items-center">
+                                    <div data-mdb-input-init class="form-outline datepicker w-100">
+                                        @Html.EditorFor(model => model.DataNascita, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                                        @Html.LabelFor(model => model.DataNascita, htmlAttributes: new { @class = "form-label" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DataNascita, "", new { @class = "text-danger d-block" })
+                                </div>
+
+
+                                <div class="col-md-6 mb-4 d-flex align-items-center">
+                                    <div data-mdb-input-init class="form-outline datepicker w-100">
+                                        @Html.EditorFor(model => model.CodFiscale, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                                        @Html.LabelFor(model => model.CodFiscale, htmlAttributes: new { @class = "form-label" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.CodFiscale, "", new { @class = "text-danger d-block" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-4 d-flex align-items-center">
+                                        <div data-mdb-input-init class="datepicker w-100">
+                                            @Html.LabelFor(model => model.ImgUser, new { @class = "form-label " })
+                                            @Html.TextBoxFor(model => model.ImgUser, new { @class = "form-control form-control-lg w-100", type = "file" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.ImgUser, "", new { @class = "text-danger d-block" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class=" mb-4 d-flex align-items-center">
+                                        <div data-mdb-input-init class="form-outline datepicker w-100">
+                                            @Html.EditorFor(model => model.Indirizzo, new { htmlAttributes = new { @class = "form-control form-control-lg w-100" } })
+                                            @Html.LabelFor(model => model.Indirizzo, htmlAttributes: new { @class = "form-label" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Indirizzo, "", new { @class = "text-danger d-block" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-center">
+
+                                <div class="col-md-6 mb-4 d-flex align-items-center">
+                                    <div data-mdb-input-init class="form-outline datepicker w-100">
+                                        @Html.EditorFor(model => model.Citta, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                                        @Html.LabelFor(model => model.Citta, htmlAttributes: new { @class = "form-label" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Citta, "", new { @class = "text-danger d-block" })
+                                </div>
+
+
+                                <div class="col-md-6 mb-4 d-flex align-items-center">
+                                    <div data-mdb-input-init class="form-outline datepicker w-100">
+                                        @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                                        @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "form-label" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger d-block" })
+                                </div>
+
+                            </div>
+
+                            <div class="row justify-content-center">
+
+                                <div class="col-md-6 mb-4 d-flex align-items-center">
+                                    <div data-mdb-input-init class="form-outline datepicker w-100">
+                                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control form-control-lg", type = "email" } })
+                                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "form-label" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger d-block" })
+                                </div>
+
+
+                                <div class="col-md-6 mb-4 d-flex align-items-center">
+                                    <div data-mdb-input-init class="form-outline datepicker w-100">
+                                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                                        @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "form-label" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger d-block" })
+                                </div>
+                            </div>
+
+
+                            <div class="row justify-content-center">
+                                <div class="col-12 mb-2">
+                                    <button type="submit" class="btn btn-success border-0 gradient-custom-4 text-white me-3">Registrati</button>
+                                    <a href="@Url.Action("Index", "Home")" class="btn btn-secondary custom-back-btn">Indietro</a>                                   
+                                </div>
+                            </div>
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+

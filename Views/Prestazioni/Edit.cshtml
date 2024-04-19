@@ -1,0 +1,71 @@
+﻿@model CliniCare360.Models.Prestazioni
+
+@{
+    ViewBag.Title = "Modifica Prestazione";
+    var imgBase64 = Model.ImgServizio != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(Model.ImgServizio)}" : string.Empty; // Percorso di un'immagine placeholder se necessario
+}
+
+<div class="container mt-5 d-flex justify-content-center">
+
+    <div class="w-75">
+
+
+        <div class="row">
+
+
+            <div class="col-lg-5 d-none d-lg-block">
+                @if (!string.IsNullOrEmpty(imgBase64))
+                {
+                    <img src="@imgBase64" alt="Immagine Prestazione" class="img-fluid">
+                }
+            </div>
+
+            <div class="col-lg-7">
+                <h4 class="mb-4">Modifica Prestazione: @Model.Nome</h4>
+                @using (Html.BeginForm("Edit", "Prestazioni", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="mb-3">
+                        @Html.HiddenFor(model => model.PrestazioneId)
+                    </div>
+
+                    <div class="mb-3">
+                        @Html.LabelFor(model => model.Nome)
+                        @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="mb-3">
+                        @Html.LabelFor(model => model.Descrizione)
+                        @Html.EditorFor(model => model.Descrizione, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Descrizione, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="mb-3">
+                        @Html.LabelFor(model => model.ImgServizio)
+                        <input type="file" name="ImgServizio" class="form-control" />
+                        @Html.ValidationMessageFor(model => model.ImgServizio, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="mb-3">
+                        @Html.LabelFor(model => model.Costo)
+                        @Html.EditorFor(model => model.Costo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Costo, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div>
+                        <input type="submit" value="Salva Modifiche" class="btn btn-primary" />
+                        @Html.ActionLink("Torna all'elenco", "Index", null, new { @class = "btn btn-secondary" })
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

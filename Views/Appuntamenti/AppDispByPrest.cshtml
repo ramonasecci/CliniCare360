@@ -1,0 +1,50 @@
+﻿@model IEnumerable<CliniCare360.Models.Appuntamenti>
+
+@{
+    ViewBag.Title = "Scopri gli Appuntamenti Disponibili";
+}
+
+<div class="container">
+    <h2 class="page-title text-center mt-4">Appuntamenti Disponibili</h2>
+
+    @if (!String.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <div class="alert-custom alert-danger-custom" role="alert">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    @if (Model != null && Model.Any())
+    {
+        var groupedAppointments = Model.GroupBy(a => a.Data.Date).OrderBy(g => g.Key);
+
+        <div class="row">
+            @foreach (var group in groupedAppointments)
+            {
+                <div class="col-12 col-md-6  col-lg-4 col-xl-3 ">
+                    <div class="appointment-card mb-4">
+                        <div class="appointment-card-header">
+                            <h5 class="appointment-date text-center">@group.Key.ToString("dd MMMM yyyy")</h5>
+                        </div>
+                        <div class="appointment-card-body">
+                            @foreach (var app in group)
+                            {
+                                <div class="appointment-time-slot d-flex justify-content-between align-items-center mb-2">
+                                    <span class="appointment-time">@app.Ora.ToString(@"hh\:mm")</span>
+                                    <a href="@Url.Action("ConfermaApp", "Appuntamenti", new { id = app.AppId })" class="btn btn-book">Prenota</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert-custom alert-info-custom">
+            Non ci sono appuntamenti disponibili per la prestazione selezionata.
+        </div>
+    }
+</div>
+

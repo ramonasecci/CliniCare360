@@ -1,0 +1,341 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    margin-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-family: "Open Sans", sans-serif;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+body {
+}
+
+.text-color-light {
+    color: #b5e6fc;
+}
+
+.bg-custom-dark {
+    background-color: #17709c !important;
+}
+
+.text-color-dark {
+    color: #5CE1E6;
+}
+
+.btn-custom-nav {
+    border-color: #305570;
+    background-color: #305570;
+    color: #BDEDE8;
+}
+
+    .btn-custom-nav:hover {
+        border-color: #305570;
+        background-color: #BDEDE8;
+        color: #305570;
+    }
+
+/*Generali*/
+
+.btn-custom {
+    border-color: #305570;
+    background-color: #305570;
+    color: white;
+}
+
+    .btn-custom:hover {
+        border-color: #305570;
+        background-color: #BDEDE8;
+        color: #305570;
+    }
+
+.card-img {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+}
+
+/**/
+
+/*HOMEcss*/
+
+.header-banner {
+    background-image: url('https://st2.depositphotos.com/3889193/8319/i/450/depositphotos_83197346-stock-photo-medical-team.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    height: 300px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+
+.text-color-dark {
+    color: #17709C;
+}
+
+.header-title {
+    background-color: #E2EBED;
+    color: #17709C;
+    padding: 0.5em;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.about-section {
+    color: #333;
+    padding: 40px 0;
+}
+
+    .about-section p {
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+    }
+
+        .about-section p.lead {
+            font-weight: bold;
+            color: #555;
+        }
+
+#card-promo {
+    background-color: #17709C;
+    color: #ffffff;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+    #card-promo:hover {
+        transform: scale(1.05);
+    }
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.informazioni-section h3 {
+    color: #17709C;
+}
+
+
+.social-post {
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+    .social-post img {
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        width: 100%;
+        height: auto;
+    }
+
+    .social-post .content {
+        padding: 15px;
+    }
+
+    .social-post .actions {
+        padding: 0 15px 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        .social-post .actions i {
+            cursor: pointer;
+        }
+
+        .social-post .actions .likes,
+        .social-post .actions .comments,
+        .social-post .actions .shares {
+            display: flex;
+            align-items: center;
+        }
+
+        .social-post .actions i:hover {
+            color: #007bff;
+        }
+
+    .social-post .post-info small {
+        color: #666;
+    }
+
+/*fineHOMEcss*/
+
+
+/*Profilo css*/
+
+.profile-header {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+/* Stili per il dettaglio del profilo e gli appuntamenti */
+.profile-detail {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-top: 20px;
+}
+
+.detail-title {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.appuntamento-item {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    transition: transform 0.2s;
+}
+
+    .appuntamento-item:hover {
+        transform: translateY(-5px);
+    }
+
+
+
+.appuntamento-date {
+    color: #555;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.appuntamento-item div {
+    font-size: 16px;
+    color: #666;
+}
+
+/*fineProfilo*/
+
+
+/*CreateUser*/
+.gradient-custom {
+    background: rgb(163,203,204);
+    background: linear-gradient(132deg, rgba(163,203,204,1) 42%, rgba(130,161,195,1) 100%);
+}
+
+.card-registration .select-input.form-control[readonly]:not([disabled]) {
+    font-size: 1rem;
+    line-height: 2.15;
+    padding-left: .75em;
+    padding-right: .75em;
+}
+
+.card-registration .select-arrow {
+    top: 13px;
+}
+
+.gradient-custom-4 {
+    background: rgb(146,203,204);
+    background: linear-gradient(270deg, rgba(146,203,204,1) 0%, rgba(30,89,153,1) 100%);
+}
+/*fineCreateUser*/
+
+/*Login css*/
+
+.gradient-custom-Log {
+    background: rgb(163,203,204);
+    background: linear-gradient(132deg, rgba(163,203,204,1) 42%, rgba(130,161,195,1) 100%);
+}
+
+
+/*fine login*/
+
+/*AppDispByPrest*/
+
+.appointments-container {
+    padding-top: 20px;
+}
+
+.appointment-card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+}
+
+.appointment-card-header {
+    background-color: #17709C;
+    color: white;
+    padding: 10px 15px;
+}
+
+    .appointment-card-header .appointment-date {
+        margin-bottom: 0;
+    }
+
+.appointment-card-body {
+    padding: 15px;
+    background-color: #f8f9fa;
+}
+
+.appointment-time-slot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.appointment-time {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.btn-book {
+    padding: 5px 15px;
+    background-color: #144864;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+    .btn-book:hover {
+        background-color: #2C93A0;
+        color: white;
+    }
+
+.alert-custom {
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.alert-danger-custom {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
+}
+
+.alert-info-custom {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border-color: #bee5eb;
+}
+
+.page-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+
+
+/*fine AppDispByPrest*/

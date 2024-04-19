@@ -1,0 +1,89 @@
+﻿@model CliniCare360.Models.Appuntamenti
+
+@{
+    ViewBag.Title = "Crea Appuntamento";
+}
+
+<section class="vh-100">
+    <div class="container mt-5">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col col-xl-10">
+                <div class="card" style="border-radius: 1rem;">
+                    <div class="row g-0">
+                        <div class="col-md-6 col-lg-5 d-none d-md-block">
+                            <img src="~/Assets/uploads/addApp.jpg"
+                                 alt="Crea Appuntamento" class="img-fluid h-100" style="border-radius: 1rem 0 0 1rem;" />
+                        </div>
+                        <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                            <div class="card-body p-4 p-lg-5 text-black">
+                                @using (Html.BeginForm("CreaApp", "Appuntamenti", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.HiddenFor(model => model.MedicoId)
+                                    @Html.HiddenFor(model => model.UserId)
+                                    @Html.HiddenFor(model => model.NoteVisita)
+                                    @Html.HiddenFor(model => model.Prescrizione)
+                                    @Html.HiddenFor(model => model.Stato)
+                                    <div class="d-flex align-items-center mb-3 pb-1">
+                                        <i class="fas fa-calendar-check fa-2x me-3"></i>
+                                        <span class="h1 fw-bold mb-0">Crea Appuntamento</span>
+                                    </div>
+
+                                    if (TempData["ErrorMessage"] != null)
+                                    {
+                                        <div class="alert alert-danger">
+                                            @TempData["ErrorMessage"]
+                                        </div>
+                                    }
+
+                                    <div class="form-group mb-4">
+                                        @Html.LabelFor(model => model.Data, htmlAttributes: new { @class = "control-label" })
+                                        <div >
+                                            @Html.EditorFor(model => model.Data, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                                            @Html.ValidationMessageFor(model => model.Data, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        @Html.LabelFor(model => model.Ora, htmlAttributes: new { @class = "control-label" })
+                                        <div>
+                                            @Html.EditorFor(model => model.Ora, new { htmlAttributes = new { @class = "form-control", type = "time" } })
+                                            @Html.ValidationMessageFor(model => model.Ora, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        @Html.LabelFor(model => model.PrestazioneId, htmlAttributes: new { @class = "control-label" })
+                                        <div class="col-md-10">
+                                            @Html.DropDownList("PrestazioneId", (SelectList)ViewBag.PrestazioneId, "Seleziona una prestazione", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.PrestazioneId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="pt-1 mb-4">
+                                            <button class="btn btn-custom btn-lg me-3" type="submit">Crea</button>
+                                            <a href="@Url.Action("ListaApp", "Appuntamenti")" class="btn btn-secondary btn-lg">Indietro</a>
+                                        </div>
+                                    </div>
+                                }
+
+                             
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    //imposto la data odierna come minima selezionabile
+    document.addEventListener("DOMContentLoaded", function () {
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementsByName("Data")[0].setAttribute('min', today);
+    });
+</script>
+

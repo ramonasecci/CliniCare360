@@ -1,0 +1,79 @@
+﻿@model CliniCare360.Models.Posts
+
+
+<section class="vh-100">
+    <div class="container mt-5">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col col-xl-10">
+                <div class="card
+                     \" style="border-radius: 1rem;">
+                    <div class="row g-0">
+                        <div class="col-md-6 col-lg-5 d-none d-md-block">
+                            <img src="~/Assets/uploads/imgAddPost.jpg"
+                                 alt="login form" class="img-fluid h-100" style="border-radius: 1rem 0 0 1rem;" />
+                        </div>
+                        <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                            <div class="card-body p-4 p-lg-5 text-black">
+
+                                @using (Html.BeginForm("AddPost", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                    <div class="d-flex align-items-center mb-3 pb-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-mailbox-flag me-3" viewBox="0 0 16 16">
+                                            <path d="M10.5 8.5V3.707l.854-.853A.5.5 0 0 0 11.5 2.5v-2A.5.5 0 0 0 11 0H9.5a.5.5 0 0 0-.5.5v8zM5 7c0 .334-.164.264-.415.157C4.42 7.087 4.218 7 4 7s-.42.086-.585.157C3.164 7.264 3 7.334 3 7a1 1 0 0 1 2 0" />
+                                            <path d="M4 3h4v1H6.646A4 4 0 0 1 8 7v6h7V7a3 3 0 0 0-3-3V3a4 4 0 0 1 4 4v6a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V7a4 4 0 0 1 4-4m0 1a3 3 0 0 0-3 3v6h6V7a3 3 0 0 0-3-3" />
+                                        </svg>
+                                        <span class="h1 fw-bold mb-0">Inserisci nuovi post</span>
+                                    </div>
+
+                                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Aggiungi nuovi contenuti visibili all'utenza</h5>
+
+                                    <div data-mdb-input-init class="form-outline mb-4">
+                                        @Html.EditorFor(model => model.Titolo, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                                        @Html.LabelFor(model => model.Titolo, new { @class = "form-label" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Titolo, "", new { @class = "text-danger d-block" })
+
+
+                                    <div data-mdb-input-init class="form-outline mb-4">
+                                        @Html.TextAreaFor(model => model.Contenuto, new { rows = 5, cols = 50, @class = "form-control form-control-lg" })
+                                        @Html.LabelFor(model => model.Contenuto, new { @class = "form-label d-block" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Contenuto, "", new { @class = "text-danger d-block" })
+
+
+                                    <div class="mb-4">
+                                        @Html.RadioButtonFor(model => model.Tipo, "promozione", new { @class = "form-check-input", id = "inlineRadio1" })
+                                        <label class="form-check-label me-3" for="inlineRadio1">Promo</label>
+
+                                        @Html.RadioButtonFor(model => model.Tipo, "info", new { @class = "form-check-input", id = "inlineRadio2" })
+                                        <label class="form-check-label" for="inlineRadio2">Info</label>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Tipo, "", new { @class = "text-danger d-block" })
+
+
+                                    <div class="mb-4">
+                                        @Html.LabelFor(model => model.ImgPost, new { @class = "form-label " })
+                                        @Html.TextBoxFor(model => model.ImgPost, new { @class = "form-control form-control-lg w-100", type = "file" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.ImgPost, "", new { @class = "text-danger d-block" })
+
+
+                            <div class="pt-1 mb-4">
+                                <button class="btn btn-custom btn-lg me-2" type="submit">Aggiungi</button>
+                                <a href="@Url.Action("Index", "Home")" class="btn btn-secondary custom-back-btn btn-lg">Indietro</a>
+                            </div>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<CliniCare360.Models.Medici>
+
+@{
+    ViewBag.Title = "Medici";
+}
+
+<h2>Medici</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cognome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Specializzazione)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Esperienza)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PatologieTrattate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImgMedico)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cognome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Specializzazione)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Esperienza)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PatologieTrattate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ImgMedico)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.MedicoId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.MedicoId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.MedicoId })
+        </td>
+    </tr>
+}
+
+</table>

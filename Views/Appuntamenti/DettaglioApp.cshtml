@@ -1,0 +1,75 @@
+﻿@model CliniCare360.Models.Appuntamenti
+
+
+
+<div class="container my-5">
+    @if (TempData["MessaggioConferma"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <div>@TempData["MessaggioConferma"].ToString()</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row align-items-center">
+        <div class="col-md-6 d-flex justify-content-center p-5">
+            @if (Model.Prestazioni.ImgServizio != null && Model.Prestazioni.ImgServizio.Length > 0)
+            {
+                string imgBase64 = Convert.ToBase64String(Model.Prestazioni.ImgServizio);
+                string imgSrc = String.Format("data:image/jpeg;base64,{0}", imgBase64);
+                <img src="@imgSrc" alt="Immagine Prestazione" class="w-75 ms-md-5 rounded-3 shadow-4" />
+            }
+            else
+            {
+                <img src="@Url.Content("~/Assets/uploads/imgDefault.jpg")" alt="Immagine Prestazione" class="w-100 rounded-3 shadow-4" />
+            }           
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <h5 class="card-header text-primary">Dettagli Appuntamento</h5>
+                <div class="card-body">
+                    <h5 class="card-title">@Html.DisplayFor(model => model.Prestazioni.Nome)</h5>
+                    <p class="card-text">
+                        <strong>Data:</strong> @Model.Data.ToString("dd/MM/yyyy")<br>
+                        <strong>Ora:</strong> @Model.Ora.ToString(@"hh\:mm")<br>
+                        @if (User.IsInRole("admin"))
+                        {
+                            <strong>Stato:</strong> @Model.Stato<br>
+                        }
+                        @if (Model.Stato == "evaso")
+                        {
+                            <strong>Note Visita:</strong> @Model.NoteVisita<br>
+                            if (User.IsInRole("admin"))
+                            {
+                                <strong>Dettagli Paziente:</strong><br>
+                                <span>Nome:</span> @Model.Users.Nome<br>
+                                <span>Cognome:</span> @Model.Users.Cognome<br>
+                            }
+                        }
+                    </p>
+                    <div class="form-group">
+
+                        <div class="pt-1 mb-4">
+                            @if (User.IsInRole("admin"))
+                            {
+                                if (Model.Stato == "prenotato")
+                                {
+                                    <a href="@Url.Action("ModificaApp", "Appuntamenti", new { id = Model.AppId })" class="btn btn-info btn-lg me-5">Modifica</a>
+                                }
+
+                                <a href="@Url.Action("ListaApp", "Appuntamenti")" class="btn btn-secondary btn-lg">Indietro</a>
+                            }
+                            else if (User.IsInRole("user"))
+                            {
+                                <a href="@Url.Action("Profilo", "Users")" class="btn btn-secondary btn-lg">Indietro</a>
+                            }
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

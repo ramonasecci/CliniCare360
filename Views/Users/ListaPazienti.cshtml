@@ -1,0 +1,59 @@
+﻿@model IEnumerable<CliniCare360.Models.Users>
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="container mt-4">
+    <h2 class="text-primary">Lista Pazienti</h2>
+    <div class="table-responsive">
+        <table class="table align-middle mb-0 bg-white">
+            <thead class="bg-light">
+                <tr>
+                    <th>Generalità</th>
+                    <th>Città</th>
+                    <th>Codice Fiscale</th>
+                    <th>Contatti</th>
+                    <th>Azioni</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                @if (item.ImgUser != null && item.ImgUser.Length > 0)
+                                {
+                                    string imgBase64 = Convert.ToBase64String(item.ImgUser);
+                                    string imgSrc = String.Format("data:image/jpeg;base64,{0}", imgBase64);
+                                    <img src="@imgSrc" alt="Immagine Profilo" style="width: 45px; height: 45px" class="rounded-circle" />
+                                }
+                                else
+                                {
+                                    <img src="@Url.Content("~/Assets/uploads/profileDefault.jpg")" alt="Immagine Profilo" style="width: 45px; height: 45px" class="rounded-circle" />
+                                }
+                                <div class="ms-3">
+                                    <p class="fw-bold mb-1">@item.Nome @item.Cognome</p>
+                                    <p class="text-muted mb-0">@item.Email</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <p class="fw-normal mb-1">@item.Indirizzo</p>
+                            <p class="text-muted mb-0">@item.Citta</p>
+                        </td>
+                        <td>
+                            <span class="badge badge-info rounded-pill d-inline">@item.CodFiscale</span>
+                        </td>
+                        <td>@item.Telefono</td>
+                        <td>
+                            <a href="@Url.Action("DettaglioPaziente", "Users", new { id = item.UserId })" class="btn btn-link btn-sm btn-rounded">
+                                Visualizza Dettagli
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
