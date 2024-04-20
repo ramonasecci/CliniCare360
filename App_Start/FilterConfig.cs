@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using CliniCare360.Models;
+using System.Web;
 using System.Web.Mvc;
 
 namespace CliniCare360
@@ -8,6 +9,7 @@ namespace CliniCare360
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            filters.Add(new AggiornaStatoAppuntamentiFilter());
         }
     }
 }
