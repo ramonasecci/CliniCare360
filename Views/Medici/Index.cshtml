@@ -1,0 +1,87 @@
+﻿@model IEnumerable<CliniCare360.Models.Medici>
+
+
+<div class="container my-4">
+    <section class="mb-5">
+        <div class="text-center p-4 shadow-sm rounded bg-light">
+            <h1 class="display-6">Scopri l'Eccellenza dei Nostri Specialisti</h1>
+            <p class="lead">Benvenuti nella sezione dedicata ai nostri medici. Qui potete trovare informazioni dettagliate su ciascuno dei professionisti che fanno parte del nostro team medico.</p>
+            <a href="@Url.Action("About", "Home")" class="btn btn-info">Scopri di più su di noi</a>
+        </div>
+    </section>
+
+    @if (TempData["SuccessMessageEditMedico"] != null)
+    {
+        <div class="alert  alert-success  alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessageEditMedico"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["SuccessCreateMedico"] != null)
+    {
+        <div class="alert  alert-success  alert-dismissible fade show" role="alert">
+            @TempData["SuccessCreateMedico"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["SuccesseDeleteMedico"] != null)
+    {
+        <div class="alert  alert-success  alert-dismissible fade show" role="alert">
+            @TempData["SuccesseDeleteMedico"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (User.IsInRole("admin"))
+    {
+        <div class="d-flex justify-content-center justify-content-md-start flex-md-row-reverse mb-3">
+            <p>
+                @Html.ActionLink("Crea Nuovo Medico", "Create", null, new { @class = "btn btn-primary" })
+            </p>
+        </div>
+    }
+
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-12">
+                <div class="card mb-3 w-100 border-0 me-5 mb-5">
+                    <div class="row g-0 m-3 align-items-center">
+                        <div class="col-md-4">
+                            <div class="d-flex justify-content-center align-items-center">
+                                @{
+                                    var imgSrc = item.ImgMedico != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(item.ImgMedico)}" : Url.Content("~/Assets/uploads/DefaultMedico.jpg");
+                                }
+                                <img src="@imgSrc" class="w-75 shadow " alt="...">
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body px-5">
+                                <h3 class="card-title text-custom text-color-dark mb-2">@item.Nome @item.Cognome</h3>
+                                <h6>Speccializzazione</h6>
+                                <p class="card-text">
+                                    @item.Specializzazione
+                                </p>
+                                <h6>Esperienza</h6>
+                                <p class="card-text">
+                                    @item.Esperienza
+                                </p>
+                                <h6>Patologie</h6>
+                                <p class="card-text">
+                                    @item.PatologieTrattate
+                                </p>
+                                @if (User.IsInRole("admin"))
+                                {
+                                    <div class="d-flex align-items-center justify-content-around">
+                                        @Html.ActionLink("Modifica", "Edit", new { id = item.MedicoId }, new { @class = "btn btn-secondary" }) |
+                                        @Html.ActionLink("Elimina", "Delete", new { id = item.MedicoId }, new { @class = "btn btn-danger" })
+                                    </div>
+                                }
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,86 @@
+﻿@model CliniCare360.Models.Medici
+
+@{
+    ViewBag.Title = "Crea Nuovo Medico";
+}
+
+<section class="mb-5">
+    <div class="container mt-5">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col col-xl-10">
+                <div class="card" style="border-radius: 1rem;">
+
+                    @using (Html.BeginForm("Create", "Medici", FormMethod.Post, new { enctype = "multipart/form-data", id = "postForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="d-flex justify-content-start align-items-center m-3 pb-1 ">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" fill="currentColor" class="bi bi-person-plus text-color-dark me-2 mb-2" viewBox="0 0 16 16">
+                                <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
+                                <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5" />
+                            </svg>
+                            <h1 class="fw-bold text-color-dark">Crea Nuovo Medico</h1>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="card-body px-5 px-lg-5 pt-0 text-black">
+                                    <h5 class="fw-normal mb-3 pb-3 text-color-medium" >Dati Anagrafici</h5>
+                                   
+                                        <img src="~/Assets/uploads/DefaultMedico.jpg" alt="Immagine del Medico" class="img-fluid mb-4" />
+
+                                   
+                                    <div data-mdb-input-init class="form-outline mb-4">
+
+                                        @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                                        @Html.LabelFor(model => model.Nome, new { @class = "form-label" })
+                                    </div>
+                                    <div data-mdb-input-init class="form-outline mb-4">
+                                        @Html.EditorFor(model => model.Cognome, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                                        @Html.LabelFor(model => model.Cognome, new { @class = "form-label" })
+                                    </div>
+                                    <div class="mb-4">
+                                        @Html.LabelFor(model => model.ImgMedico, new { @class = "form-label" })
+                                        @Html.TextBoxFor(model => model.ImgMedico, new { @class = "form-control form-control-lg w-100", type = "file" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="card-body px-5 px-lg-5 pt-0 text-black">
+                                    <h5 class="fw-normal mb-3 pb-3 text-color-medium" >Dati Professionali</h5>
+                                    <div data-mdb-input-init class="form-outline mb-4">
+                                        @Html.TextAreaFor(model => model.Specializzazione, new { rows = 5, cols = 50, @class = "form-control form-control-lg" })
+                                        @Html.LabelFor(model => model.Specializzazione, new { @class = "form-label d-block" })
+                                    </div>
+
+                                    <div data-mdb-input-init class="form-outline mb-4">
+                                        @Html.TextAreaFor(model => model.Esperienza, new { rows = 5, cols = 50, @class = "form-control form-control-lg" })
+                                        @Html.LabelFor(model => model.Esperienza, new { @class = "form-label d-block" })
+                                    </div>
+
+                                    <div data-mdb-input-init class="form-outline mb-4">
+                                        @Html.TextAreaFor(model => model.PatologieTrattate, new { rows = 5, cols = 50, @class = "form-control form-control-lg" })
+                                        @Html.LabelFor(model => model.PatologieTrattate, new { @class = "form-label d-block" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="col-6">
+                                <div class="card-body px-4 px-lg-5 text-black d-flex">
+                                    <button class="btn btn-custom btn-lg me-2" type="submit">Salva</button>
+                                    <a href="@Url.Action("Index", "Medici")" class="btn btn-secondary custom-back-btn btn-lg">Indietro</a>
+                                </div>
+                            </div>
+                        </div>
+                   
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

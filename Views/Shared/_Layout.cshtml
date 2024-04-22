@@ -39,6 +39,7 @@
                                 @Html.ActionLink("Servizi", "Index", "Prestazioni", new { area = "" }, new { @class = "nav-link text-white" })
 
 
+
                             }
                             else if (User.IsInRole("user"))
                             {
@@ -57,16 +58,22 @@
                                 @Html.ActionLink("Gestione Appuntamenti", "ListaApp", "Appuntamenti", new { area = "" }, new { @class = "nav-link text-white" })
                             </li>
                             <li class="nav-item">
+                                @Html.ActionLink("Medici", "Index", "Medici", new { area = "" }, new { @class = "nav-link text-white" })
+                            </li>
+                            <li class="nav-item">
                                 @Html.ActionLink("Pazienti", "ListaPazienti", "Users", new { area = "" }, new { @class = "nav-link text-white" })
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
+                                @Html.ActionLink("Medici", "Index", "Medici", new { area = "" }, new { @class = "nav-link text-white" })
+                            </li>
+                            <li class="nav-item">
                                 @Html.ActionLink("Clinica", "Index", "Prestazioni", new { area = "" }, new { @class = "nav-link text-white" })
                             </li>
                             <li class="nav-item">
-                                @Html.ActionLink("Medici", "Index", "Prestazioni", new { area = "" }, new { @class = "nav-link text-white" })
+                                @Html.ActionLink("Medici", "Index", "Medici", new { area = "" }, new { @class = "nav-link text-white" })
                             </li>
                         }
                     </ul>

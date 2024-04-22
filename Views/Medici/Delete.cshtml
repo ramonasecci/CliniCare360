@@ -1,0 +1,47 @@
+﻿@model CliniCare360.Models.Medici
+
+@{
+    ViewBag.Title = "Elimina Medico";
+}
+
+<section class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h2 class="card-title mb-2">Conferma Eliminazione del Medico: @Model.Nome @Model.Cognome</h2>                    
+                    <dl class="row my-4">
+                        <div class="col-md-6">
+                            <div class="d-flex justify-content-center align-items-center">
+                                @{
+                                    var imgSrc = Model.ImgMedico != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(Model.ImgMedico)}" : Url.Content("~/Assets/uploads/DefaultMedico.jpg");
+                                }
+                                <img src="@imgSrc" class="w-75 shadow " alt="...">
+                            </div>
+                         
+                        </div>
+                            <div class="col-md-6">
+                                <dt class="col-sm-4">Nome:</dt>
+                                <dd class="col-sm-8">@Html.DisplayFor(model => model.Nome)</dd>
+
+                                <dt class="col-sm-4">Cognome:</dt>
+                                <dd class="col-sm-8">@Html.DisplayFor(model => model.Cognome)</dd>
+
+                                <dt class="col-sm-4">Specializzazione:</dt>
+                                <dd class="col-sm-8">@Html.DisplayFor(model => model.Specializzazione)</dd>
+
+                            </div>
+                    </dl>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                <div class="d-flex justify-content-center">
+                    @Html.ActionLink("Torna alla Lista", "Index", null, new { @class = "btn btn-secondary me-5" })
+                    <input type="submit" value="Elimina" class="btn btn-danger" />
+                </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

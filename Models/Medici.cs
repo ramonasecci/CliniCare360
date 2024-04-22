@@ -1,4 +1,4 @@
-namespace CliniCare360.Models
+﻿namespace CliniCare360.Models
 {
     using System;
     using System.Collections.Generic;
@@ -37,7 +37,8 @@ namespace CliniCare360.Models
         [StringLength(255)]
         public string PatologieTrattate { get; set; }
 
-  
+        [Display(Name = "Immagine Medico")]
+
         public byte[] ImgMedico { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

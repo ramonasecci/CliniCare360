@@ -166,6 +166,7 @@
     <Compile Include="Controllers\AppuntamentiController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MediciController.cs" />
     <Compile Include="Controllers\PrestazioniController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -186,6 +187,7 @@
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Assets\uploads\acqua.jpg" />
     <Content Include="Assets\uploads\addApp.jpg" />
+    <Content Include="Assets\uploads\DefaultMedico.jpg" />
     <Content Include="Assets\uploads\esamenew.jpg" />
     <Content Include="Assets\uploads\imgAddPost.jpg" />
     <Content Include="Assets\uploads\imgDefault.jpg" />
@@ -285,6 +287,10 @@
     <Content Include="Views\Home\AddPost.cshtml" />
     <Content Include="Views\Home\EditPost.cshtml" />
     <Content Include="Views\Users\DettaglioPaziente.cshtml" />
+    <Content Include="Views\Medici\Create.cshtml" />
+    <Content Include="Views\Medici\Delete.cshtml" />
+    <Content Include="Views\Medici\Edit.cshtml" />
+    <Content Include="Views\Medici\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
