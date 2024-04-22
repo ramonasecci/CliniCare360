@@ -187,6 +187,9 @@
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Assets\uploads\acqua.jpg" />
     <Content Include="Assets\uploads\addApp.jpg" />
+    <Content Include="Assets\uploads\clinest.jpg" />
+    <Content Include="Assets\uploads\clinica1.jpg" />
+    <Content Include="Assets\uploads\clinica2.jpg" />
     <Content Include="Assets\uploads\DefaultMedico.jpg" />
     <Content Include="Assets\uploads\esamenew.jpg" />
     <Content Include="Assets\uploads\imgAddPost.jpg" />
@@ -291,6 +294,7 @@
     <Content Include="Views\Medici\Delete.cshtml" />
     <Content Include="Views\Medici\Edit.cshtml" />
     <Content Include="Views\Medici\Index.cshtml" />
+    <Content Include="Views\Home\Clinica.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -27,8 +27,14 @@ namespace CliniCare360.Controllers
             return View();
         }
 
-        //aggiunta post visibile soltanto all'amministrazione
+        //pagina con le info della clinica accessibili a tutti
+        public ActionResult Clinica()
+        {
+             return View();
+        }
 
+        //aggiunta post visibile soltanto all'amministrazione
+        [Authorize(Roles = "admin")]
         public ActionResult AddPost()
         {
             return View();
@@ -37,6 +43,7 @@ namespace CliniCare360.Controllers
         //aggiunta post visibile soltanto all'amministrazione
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken] 
         public ActionResult AddPost([Bind(Include = "Titolo,Contenuto,Tipo")] Posts postModel, HttpPostedFileBase ImgPost)
         {
@@ -72,6 +79,7 @@ namespace CliniCare360.Controllers
 
         //modifica post accessibile solo all'amministrazione
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public ActionResult EditPost(int id)
         {
             var postModel = db.Posts.Find(id);
@@ -84,6 +92,7 @@ namespace CliniCare360.Controllers
 
         // Gestisce la sottomissione del form di modifica
         [HttpPost]
+        [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
         public ActionResult EditPost([Bind(Include = "PostId,Titolo,Contenuto,Tipo")] Posts postModel, HttpPostedFileBase ImgPost)
         {
