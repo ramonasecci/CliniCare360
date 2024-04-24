@@ -6,20 +6,24 @@
     <div class="d-flex justify-content-between">
         <h2>Lista Appuntamenti</h2>
         <div class="mb-3 d-flex">
-            <select id="statoFilter" class="form-select">
-                <option value="Tutti">Tutti</option>
-                <option value="disponibile">Disponibili</option>
-                <option value="prenotato">Confermati</option>
-                <option value="disdetto">Disdetti</option>
-                <option value="evaso">Evasi</option>
-            </select>
-            <p>
-                @Html.ActionLink("Aggiungi", "CreaApp", null, new { @class = "btn btn-outline-info" })
-            </p>
+            <div>
+                @Html.ActionLink("Nuovo Appuntamento", "CreaApp", null, new { @class = "btn btn-outline-info" })
+            </div>
         </div>
-
     </div>
-  
+    <div class="d-flex justify-content-end align-items-center my-3">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-funnel me-2" viewBox="0 0 16 16">
+            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z" />
+        </svg>
+        <select id="statoFilter" class="form-select me-2" style="width: 150px; height: 38px;">
+            <option value="Tutti">Tutti</option>
+            <option value="disponibile">Disponibili</option>
+            <option value="prenotato">Confermati</option>
+            <option value="evaso">Evasi</option>
+        </select>
+        <input type="date" id="dataFilter" class="form-control" style="width: 150px; height: 38px;" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+    </div>
+
 
     <div id="appuntamentiContainer" class="table-responsive">
         <table class="table">
@@ -29,12 +33,7 @@
                     <th>Ora</th>
                     <th>Prestazione</th>
                     <th>Stato</th>
-                    <th>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
-                        </svg>
-                    </th>
+                    <th>Dettaglio</th>
                 </tr>
             </thead>
             <tbody id="appuntamentiTable">
@@ -45,8 +44,10 @@
 
 
 <script>
+    /* FETCH SULLA LISTA DI APPUNTAMENTI E FILTRI PER STATO E DATA*/
 document.addEventListener('DOMContentLoaded', function () {
     const statoFilter = document.getElementById('statoFilter');
+    const dataFilter = document.getElementById('dataFilter');
 
     function fetchAndFilterAppointments() {
         fetch('@Url.Action("ListaAppTot", "Appuntamenti")', {
@@ -61,17 +62,39 @@ document.addEventListener('DOMContentLoaded', function () {
             let rowsHtml = '';
             tableBody.innerHTML = '';
             const filtroStato = statoFilter.value;
-            const filteredData = data.data.filter(appuntamento => filtroStato === 'Tutti' || appuntamento.Stato === filtroStato);
+            const filtroData = dataFilter.value;         
+            const filteredData = data.data.filter(appuntamento => {
+                let [day, month, year] = appuntamento.Data.split('/');
+                month = month.padStart(2, '0');
+                day = day.padStart(2, '0'); 
+                const appDataISO = `${year}-${month}-${day}`;
+
+                console.log("Data dell'appuntamento (ISO):", appDataISO); 
+
+                return (filtroStato === 'Tutti' || appuntamento.Stato === filtroStato) &&
+                    (!filtroData || appDataISO === filtroData);
+            });
+
+            console.log(filtroData)
+            console.log(filteredData)
+
             if (data.success && filteredData) {
                 filteredData.forEach(appuntamento => {
                     rowsHtml += `
                         <tr>
-                            <td>${appuntamento.Data}</td>
-                            <td>${appuntamento.Ora}</td>
-                            <td>${appuntamento.Prestazione}</td>
-                            <td>${appuntamento.Stato}</td>
-                            <td><a href="/Appuntamenti/DettaglioApp?id=${appuntamento.Id}" class="btn btn-custom rounded-pill">Dettaglio</a></td>
-                        </tr>
+    <td>${appuntamento.Data.split('T')[0]}</td>
+    <td>${appuntamento.Ora}</td>
+    <td>${appuntamento.Prestazione}</td>
+    <td>${appuntamento.Stato}</td>
+    <td>
+        <a href="/Appuntamenti/DettaglioApp?id=${appuntamento.Id}">
+           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-arrow-up-right text-color-dark" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>
+  <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>
+</svg>
+        </a>
+    </td>
+</tr>
                     `;
                 });
                 tableBody.innerHTML = rowsHtml;
@@ -80,11 +103,9 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => console.error('Errore nel recupero degli appuntamenti:', error));
     }
 
-
     statoFilter.addEventListener('change', fetchAndFilterAppointments);
-
+    dataFilter.addEventListener('change', fetchAndFilterAppointments);
 
     fetchAndFilterAppointments();
-});
-
+});    
 </script>

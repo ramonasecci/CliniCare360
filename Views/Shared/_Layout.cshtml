@@ -19,7 +19,7 @@
 </head>
 <body>
     <div class="d-flex flex-column min-vh-100">
-        <nav class="navbar bg-custom-dark navbar-expand-md">
+        <nav class="navbar bg-custom-dark navbar-expand-md fixed-top p-0">
             <div class="container-fluid">
                 <a class="navbar-brand brand-tlt fw-bolder fs-5 text-white" href="@Url.Action("Index", "Home")">
                     <img src="~/Assets/uploads/logo.png" alt="Logo" class="navbar-logo text-color-dark" width="60" height="60" />
@@ -70,11 +70,11 @@
                                 @Html.ActionLink("Medici", "Index", "Medici", new { area = "" }, new { @class = "nav-link text-white" })
                             </li>
                             <li class="nav-item">
-                                @Html.ActionLink("Clinica", "Index", "Prestazioni", new { area = "" }, new { @class = "nav-link text-white" })
+                                @Html.ActionLink("Clinica", "Clinica", "Home", new { area = "" }, new { @class = "nav-link text-white" })
                             </li>
-                            <li class="nav-item">
-                                @Html.ActionLink("Medici", "Index", "Medici", new { area = "" }, new { @class = "nav-link text-white" })
-                            </li>
+                            <li>
+                                <a href="@Url.Action("Contatti", "Home")" class="text-white">Contatti</a>
+                            </li>                           
                         }
                     </ul>
                     <ul class="navbar-nav  align-items-center">
@@ -151,9 +151,9 @@
                         <div class="col-md-4">
                             <h5>Link Rapidi</h5>
                             <ul class="list-unstyled">
-                                <li><a href="/chi-siamo" class="text-white">Chi Siamo</a></li>
-                                <li><a href="/servizi" class="text-white">Servizi</a></li>
-                                <li><a href="/contatti" class="text-white">Contatti</a></li>
+                                <li><a href="@Url.Action("Clinica", "Home")" class="text-white">Chi Siamo</a></li>                             
+                                <li><a href="@Url.Action("Index", "Prestazioni")" class="text-white">Servizi</a></li>
+                                <li><a href="@Url.Action("Contatti", "Home")" class="text-white">Contatti</a></li>
                             </ul>
                         </div>
                         <div class="col-md-4">

@@ -83,7 +83,7 @@
                                         <div class="appuntamento-date">@visita.Data.ToString("dd/MM/yyyy") @visita.Ora.ToString(@"hh\:mm")</div>
                                         <div>@visita.Prestazioni.Nome</div>
                                     </div>
-                                    <a href="@Url.Action("Details", "Appuntamenti", new { id = visita.AppId })" class="btn btn-sm btn-info">Dettagli</a>
+                                    <a href="@Url.Action("DettaglioApp", "Appuntamenti", new { id = visita.AppId })" class="btn btn-sm btn-info">Dettagli</a>
                                 </div>
                             }
                         }

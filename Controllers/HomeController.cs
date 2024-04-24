@@ -32,6 +32,11 @@ namespace CliniCare360.Controllers
         {
              return View();
         }
+        public ActionResult Contatti()
+        {
+            return View();
+        }
+
 
         //aggiunta post visibile soltanto all'amministrazione
         [Authorize(Roles = "admin")]
@@ -132,6 +137,43 @@ namespace CliniCare360.Controllers
 
             return View(postModel);
         }
+
+        //ELIMINAZIONE POST ACCESSIBILE SOLO AD ADMIN
+
+        // GET: Home/DeletePost/5
+        [HttpGet]
+        [Authorize(Roles = "admin")] 
+        public ActionResult DeletePost(int id)
+        {
+            var post = db.Posts.Find(id);
+            if (post == null)
+            {
+                return HttpNotFound();
+            }
+            return View(post);
+        }
+
+        // POST: Home/DeletePost/5
+        [HttpPost, ActionName("DeletePost")]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")] 
+        public ActionResult DeletePostConfirmed(int id)
+        {
+            var post = db.Posts.Find(id);
+            if (post != null)
+            {
+                db.Posts.Remove(post);
+                db.SaveChanges();                
+                TempData["SuccessMessage"] = "Il post è stato eliminato con successo.";
+            }
+            else
+            {
+                
+                TempData["ErrorMessage"] = "Non è stato possibile trovare il post da eliminare.";
+            }
+            return RedirectToAction("Index"); 
+        }
+
 
 
     }

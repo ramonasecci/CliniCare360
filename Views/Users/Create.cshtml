@@ -12,17 +12,17 @@
                         @using (Html.BeginForm("Create", "Users", FormMethod.Post, new { enctype = "multipart/form-data" }))
                         {
                             @Html.AntiForgeryToken()
+
                             @Html.HiddenFor(model => model.Ruolo)
 
                             if (TempData["ErrorMessage"] != null)
                             {
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <div class="alert  alert-danger  alert-dismissible fade show" role="alert">
                                     @TempData["ErrorMessage"]
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
                             }
+
 
                             <div class="row">
 
@@ -130,7 +130,7 @@
                             <div class="row justify-content-center">
                                 <div class="col-12 mb-2">
                                     <button type="submit" class="btn btn-success border-0 gradient-custom-4 text-white me-3">Registrati</button>
-                                    <a href="@Url.Action("Index", "Home")" class="btn btn-secondary custom-back-btn">Indietro</a>                                   
+                                    <a href="@Url.Action("Index", "Home")" class="btn btn-secondary custom-back-btn">Indietro</a>
                                 </div>
                             </div>
 

@@ -8,87 +8,154 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     }
+    @if (TempData["SuccessEditProfile"] != null)
+    {
+        <div class="alert  alert-success  alert-dismissible fade show" role="alert">
+            @TempData["SuccessEditProfile"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
     <div class="profile-header">
-        <h2>Profilo di @Model.Nome @Model.Cognome</h2>
+        <div class="d-flex align-items-center">
+            <h2>Profilo di @Model.Nome @Model.Cognome</h2>
+            @if (User.IsInRole("user"))
+            {
+                <a href="@Url.Action("Edit", "Users", new { id = Model.UserId })" class="text-decoration-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen ms-1 mb-2" viewBox="0 0 16 16">
+                        <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
+                    </svg>
+                </a>
+            }
 
-        @if (Model.ImgUser != null && Model.ImgUser.Length > 0)
-        {
-            string imgBase64 = Convert.ToBase64String(Model.ImgUser);
-            string imgSrc = String.Format("data:image/jpeg;base64,{0}", imgBase64);
-            <img src="@imgSrc" alt="Immagine Profilo" class="img-fluid rounded-circle" width="150">
-        }
-        else
-        {
-            <img src="@Url.Content("~/Assets/uploads/profileDefault.jpg")" alt="Immagine Prestazione" class="img-fluid rounded-circle" width="150">
-        }
-        <p class="mt-3"><strong>Email:</strong> @Model.Email</p>
-        <p><strong>Telefono:</strong> @Model.Telefono</p>
+            </div>
+
+        <div class="row">
+            <div class="col">
+                @if (Model.ImgUser != null && Model.ImgUser.Length > 0)
+                {
+                    string imgBase64 = Convert.ToBase64String(Model.ImgUser);
+                    string imgSrc = String.Format("data:image/jpeg;base64,{0}", imgBase64);
+                    <img src="@imgSrc" alt="Immagine Profilo" class="img-fluid rounded-circle" width="150">
+                }
+                else
+                {
+                    <img src="@Url.Content("~/Assets/uploads/profileDefault.jpg")" alt="Immagine Profilo" class="img-fluid rounded-circle" width="150">
+                }
+                <p class="mt-3"><strong>Email:</strong> @Model.Email</p>
+                <p><strong>Telefono:</strong> @Model.Telefono</p>
+            </div>
+            <div class="col  d-flex align-items-end">
+                <div>
+                    <p><strong>Data di nascita:</strong> @Model.DataNascita.ToShortDateString()</p>
+                    <p><strong>Codice Fiscale:</strong> @Model.CodFiscale</p>
+                    @if (!String.IsNullOrEmpty(Model.Indirizzo))
+                    {
+                        <p><strong>Indirizzo:</strong> @Model.Indirizzo</p>
+                    }
+                    @if (!String.IsNullOrEmpty(Model.Citta))
+                    {
+                        <p><strong>Città:</strong> @Model.Citta</p>
+                    }
+
+                </div>
+
+            </div>
+        </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-6">
+
+    <div class="row mb-5">
+        <div class="col-lg-6">
             <div class="profile-detail">
                 <h4 class="detail-title">Visite Passate</h4>
                 @foreach (var visita in (IEnumerable<CliniCare360.Models.Appuntamenti>)ViewData["VisitePassate"])
                 {
-                    <a href="@Url.Action("DettaglioApp", "Appuntamenti", new { id = visita.AppId })" class="text-decoration-none">
-                        <div class="appuntamento-item d-flex justify-content-around align-items-baseline">
+                    <div class="appuntamento-item d-flex justify-content-around align-items-center ">
 
-                            @if (Model.ImgUser != null && Model.ImgUser.Length > 0)
-                            {
-                                string imgBase64 = Convert.ToBase64String(visita.Prestazioni.ImgServizio);
-                                string imgSrc = String.Format("data:image/jpeg;base64,{0}", imgBase64);
-                                <img src="@imgSrc" alt="Immagine Prestazione" class="img-fluid" width="100" height="100" />
-                            }
-                            else
-                            {
-                                <img src="@Url.Content("~/Assets/uploads/imgDefault.jpg")" alt="Immagine Prestazione" class="img-fluid" width="100" height="100" />
-                            }
-                            <div class="ms-3">
-                                <div class="appuntamento-date">@visita.Data.ToString("dd/MM/yyyy") @visita.Ora.ToString(@"hh\:mm")</div>
-                                <div>@visita.Prestazioni.Descrizione</div>
+
+                        @if (visita.Prestazioni.ImgServizio != null && visita.Prestazioni.ImgServizio.Length > 0)
+                        {
+                            string imgBase64 = Convert.ToBase64String(visita.Prestazioni.ImgServizio);
+                            string imgSrc = String.Format("data:image/jpeg;base64,{0}", imgBase64);
+                            <img src="@imgSrc" alt="Immagine Prestazione" class="img-fluid" width="100" height="100" />
+                        }
+                        else
+                        {
+                            <img src="@Url.Content("~/Assets/uploads/imgDefault.jpg")" alt="Immagine Prestazione" class="img-fluid" width="100" height="100" />
+                        }
+                        <div class="ms-3">
+                            <div class="d-flex justify-content-between">
+                                <a href="@Url.Action("DettaglioApp", "Appuntamenti", new { id = visita.AppId })">
+                                    <div class="appuntamento-date text-color-dark">@visita.Data.ToString("dd/MM/yyyy") @visita.Ora.ToString(@"hh\:mm")</div>
+                                </a>
 
                             </div>
+
+                            <div>@visita.Prestazioni.Descrizione</div>
+                            <div class="d-flex align-items-center justify-content-start">
+                                @Html.ActionLink("Dettaglio", "DettaglioApp", "Appuntamenti", new { id = visita.AppId }, new { @class = "btn btn-sm btn-info me-1 rounded-pill" })
+
+                            </div>
+
                         </div>
-                    </a>
+
+                    </div>
+
 
                 }
             </div>
         </div>
 
 
-        <div class="col-md-6">
+        <div class="col-lg-6">
             <div class="profile-detail">
+
                 <h4 class="detail-title">Prossimi Appuntamenti</h4>
                 @foreach (var appuntamento in (IEnumerable<CliniCare360.Models.Appuntamenti>)ViewData["VisiteFuture"])
                 {
 
-                    <div class="appuntamento-item d-flex justify-content-around align-items-center row">
-                        <div class="col-11">
-                            <a href="@Url.Action("DettaglioApp", "Appuntamenti", new { id = appuntamento.AppId })" class="text-decoration-none">
-                                @if (Model.ImgUser != null && Model.ImgUser.Length > 0)
-                                {
-                                    string imgBase64 = Convert.ToBase64String(appuntamento.Prestazioni.ImgServizio);
-                                    string imgSrc = String.Format("data:image/jpeg;base64,{0}", imgBase64);
-                                    <img src="@imgSrc" alt="Immagine Prestazione" class="img-fluid" width="100" height="100" />
-                                }
-                                else
-                                {
-                                    <img src="@Url.Content("~/Assets/uploads/imgDefault.jpg")" alt="Immagine Prestazione" class="img-fluid" width="100" height="100" />
-                                }
-                                <div class="ms-3">
+                    <div class="appuntamento-item d-flex justify-content-around align-items-center ">
+
+
+                        @if (appuntamento.Prestazioni.ImgServizio != null && appuntamento.Prestazioni.ImgServizio.Length > 0)
+                        {
+                            string imgBase64 = Convert.ToBase64String(appuntamento.Prestazioni.ImgServizio);
+                            string imgSrc = String.Format("data:image/jpeg;base64,{0}", imgBase64);
+                            <img src="@imgSrc" alt="Immagine Prestazione" class="img-fluid" width="100" height="100" />
+                        }
+                        else
+                        {
+                            <img src="@Url.Content("~/Assets/uploads/imgDefault.jpg")" alt="Immagine Prestazione" class="img-fluid" width="100" height="100" />
+                        }
+                        <div class="ms-3">
+                            <div class="d-flex justify-content-between">
+                                <a href="@Url.Action("DettaglioApp", "Appuntamenti", new { id = appuntamento.AppId })">
                                     <div class="appuntamento-date">@appuntamento.Data.ToString("dd/MM/yyyy") @appuntamento.Ora.ToString(@"hh\:mm")</div>
-                                    <div>@appuntamento.Prestazioni.Descrizione</div>
+                                </a>
+                                <button type="button" class="btn btn-sm btn-outline-secondary border-0" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#exampleModal" data-id="@appuntamento.AppId">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                    </svg>
+                                </button>
+                            </div>
 
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-1">
-                            <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#exampleModal" data-id="@appuntamento.AppId">
-                                Disdici
-                            </button>
+                            <div>@appuntamento.Prestazioni.Descrizione</div>
+                            <div class="d-flex align-items-center justify-content-start">
+                                @Html.ActionLink("Dettaglio", "DettaglioApp", "Appuntamenti", new { id = appuntamento.AppId }, new { @class = "btn btn-sm btn-info me-1 rounded-pill" })
+
+                            </div>
 
                         </div>
+
+
+
+
+
+
+
+
+
                     </div>
 
                 }
@@ -122,11 +189,11 @@
 
         disdiciButtons.forEach(button => {
             button.addEventListener('click', function () {
-                const appId = this.getAttribute('data-id'); 
+                const appId = this.getAttribute('data-id');
                 const modal = document.getElementById('exampleModal');
-                const appIdInput = modal.querySelector('#appId'); 
+                const appIdInput = modal.querySelector('#appId');
 
-                appIdInput.value = appId;  
+                appIdInput.value = appId;
             });
         });
     });

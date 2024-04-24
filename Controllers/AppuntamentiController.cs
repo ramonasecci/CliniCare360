@@ -18,7 +18,6 @@ namespace CliniCare360.Controllers
         /*LO STATO DEGLI APPUNTAMENTI POTRà ESSERE
          -disponibile
         -prenotato
-        -disdetto
         -evaso*/
 
         [Authorize(Roles = "user")]

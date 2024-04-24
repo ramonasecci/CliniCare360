@@ -157,7 +157,7 @@ namespace CliniCare360.Controllers
             {
                 foreach (var app in appId)
                 {
-                    app.PrestazioneId = 11;
+                    app.PrestazioneId = 1;
                 }
             }
             db.Prestazioni.Remove(prestazioni);          

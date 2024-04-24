@@ -36,9 +36,10 @@
                         {
                             <strong>Stato:</strong> @Model.Stato<br>
                         }
-                        @if (Model.Stato == "evaso" && Model.UserId!= null)
+                        @if (Model.Stato == "evaso" && Model.UserId != null)
                         {
                             <strong>Note Visita:</strong> @Model.NoteVisita<br>
+                            <strong>Prescrizione:</strong> @Model.Prescrizione<br>
                             if (User.IsInRole("admin"))
                             {
                                 <strong>Dettagli Paziente:</strong><br>
@@ -57,7 +58,15 @@
                                     <a href="@Url.Action("ModificaApp", "Appuntamenti", new { id = Model.AppId })" class="btn btn-info btn-lg me-5">Modifica</a>
                                 }
 
-                                <a href="@Url.Action("ListaApp", "Appuntamenti")" class="btn btn-secondary btn-lg">Indietro</a>
+                                if (Model.UserId != null)
+                                {
+
+                                    <a href="@Url.Action("DettaglioPaziente", "Users", new { id = Model.UserId })" class="btn btn-secondary btn-lg">Indietro</a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("ListaApp", "Appuntamenti")" class="btn btn-secondary btn-lg">Indietro</a>
+                                }
                             }
                             else if (User.IsInRole("user"))
                             {

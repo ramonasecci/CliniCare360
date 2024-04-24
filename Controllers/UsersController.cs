@@ -65,44 +65,47 @@ namespace CliniCare360.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "UserId,Nome,Cognome,DataNascita,CodFiscale,Indirizzo,Citta,Telefono,Email,Password,Ruolo")] Users users, HttpPostedFileBase ImgUser)
         {
-            var emailExist = db.Users.Any(u => u.Email == users.Email);
-            if (emailExist)
+            var emailExist = db.Users.Where(u => u.Email == users.Email).FirstOrDefault();
+            if (emailExist != null)
             {
-                ModelState.AddModelError("", "L'email fornita è già utilizzata.");
+                TempData["ErrorMessage"] = "L'email fornita è già utilizzata.";
             }
-            var codFiscaleExist = db.Users.Any(u => u.CodFiscale == users.CodFiscale);
-            if (codFiscaleExist)
+            var codFiscaleExist = db.Users.Where(u => u.CodFiscale == users.CodFiscale).FirstOrDefault();
+            if (codFiscaleExist!=null)
             {
-                ModelState.AddModelError("", "Il codice fiscale fornito è già utilizzato.");
+                TempData["ErrorMessage"] = "Il codice fiscale fornito è già utilizzato.";
             }
 
             users.Ruolo = "user";
-
-            if (ModelState.IsValid)
+            if(emailExist == null && codFiscaleExist == null)
             {
-                if (ImgUser != null && ImgUser.ContentLength > 0)
+                if (ModelState.IsValid)
                 {
-                    if (ImgUser.ContentType.StartsWith("image"))
+                    if (ImgUser != null && ImgUser.ContentLength > 0)
                     {
-                        using (var reader = new BinaryReader(ImgUser.InputStream))
+                        if (ImgUser.ContentType.StartsWith("image"))
                         {
-                            users.ImgUser = reader.ReadBytes(ImgUser.ContentLength);
+                            using (var reader = new BinaryReader(ImgUser.InputStream))
+                            {
+                                users.ImgUser = reader.ReadBytes(ImgUser.ContentLength);
+                            }
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("ImgUser", "Il file selezionato non è un'immagine valida.");
+                            return View(users);
                         }
                     }
-                    else
-                    {
-                        ModelState.AddModelError("ImgUser", "Il file selezionato non è un'immagine valida.");
-                        return View(users);
-                    }
+                    db.Users.Add(users);
+                    db.SaveChanges();
+                    return RedirectToAction("Profilo", new { id = users.UserId });
                 }
-                db.Users.Add(users);
-                db.SaveChanges();
-                return RedirectToAction("Profilo", new { id = users.UserId });
-            }
+            }          
             return View(users);
         }
 
-        // GET: Users/Edit/5
+        // GET: per la modifica del profilo accessibile solo all'utente
+        [Authorize(Roles = "user")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -117,21 +120,53 @@ namespace CliniCare360.Controllers
             return View(users);
         }
 
-        // POST: Users/Edit/5
-        // Per la protezione da attacchi di overposting, abilitare le proprietà a cui eseguire il binding. 
-        // Per altri dettagli, vedere https://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST:per la modifica del profilo accessibile solo all'utente
         [HttpPost]
+        [Authorize(Roles = "user")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserId,Nome,Cognome,ImgUser,DataNascita,CodFiscale,Indirizzo,Citta,Telefono,Email,Password,Ruolo")] Users users)
+        public ActionResult Edit([Bind(Include = "UserId,Nome,Cognome,CodFiscale,DataNascita,Ruolo,Indirizzo,Citta,Telefono,Email,Password")] Users user, HttpPostedFileBase ImgUser)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(users).State = EntityState.Modified;
+                var userToUpdate = db.Users.Find(user.UserId);
+                if (userToUpdate == null)
+                {
+                    return HttpNotFound();
+                }
+
+               
+                if (ImgUser != null && ImgUser.ContentLength > 0)
+                {
+                    if (ImgUser.ContentType.StartsWith("image"))
+                    {
+                        using (var reader = new System.IO.BinaryReader(ImgUser.InputStream))
+                        {
+                            userToUpdate.ImgUser = reader.ReadBytes(ImgUser.ContentLength);
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("ImgUser", "Il file selezionato non è un'immagine valida.");
+                        return View(user);
+                    }
+                }
+              
+                userToUpdate.Indirizzo = user.Indirizzo;
+                userToUpdate.Citta = user.Citta;
+                userToUpdate.Telefono = user.Telefono;
+                userToUpdate.Email = user.Email;
+                userToUpdate.Password = user.Password; 
+
+                db.Entry(userToUpdate).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                TempData["SuccessEditProfile"] = "I dati sono stati aggiornati con successo.";
+                return RedirectToAction("Profilo", new { id = user.UserId });
             }
-            return View(users);
+
+            return View(user);
         }
+
 
         //Mostra il dettaglio del paziente all'amministratore
         [Authorize(Roles = "admin")]
@@ -155,7 +190,7 @@ namespace CliniCare360.Controllers
                                             .ToList();
 
             ViewData["VisitePassate"] = db.Appuntamenti
-                                        .Where(a => a.UserId == id && a.Stato == "completato")
+                                        .Where(a => a.UserId == id && a.Stato == "evaso")
                                         .Include(a => a.Prestazioni) 
                                         .ToList();
 

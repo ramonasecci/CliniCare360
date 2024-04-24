@@ -1,0 +1,48 @@
+﻿@model CliniCare360.Models.Posts
+
+@{
+    ViewBag.Title = "Elimina Post";
+}
+<section class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h2 class="card-title mb-2">Conferma Eliminazione del Post</h2>
+                    <dl class="row my-4">
+                        <div class="col-md-6">
+                            <div class="d-flex justify-content-center align-items-center">
+
+                                @{
+                                    var imgSrc = Model.ImgPost != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(Model.ImgPost)}" : Url.Content("~/Assets/uploads/imgDefault.jpg");
+                                }
+                                <img src="@imgSrc" class="w-75 shadow " alt="...">
+
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <dt class="col-sm-4">Titolo:</dt>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.Titolo)</dd>
+
+                            <dt class="col-sm-4">Contenuto:</dt>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.Contenuto)</dd>
+
+
+
+                        </div>
+                    </dl>
+                    @using (Html.BeginForm("DeletePost", "Home", new { id = Model.PostId }, FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="d-flex justify-content-center">
+                            @Html.ActionLink("Torna alla Lista", "Index", null, new { @class = "btn btn-secondary me-5" })
+                            <input type="submit" value="Elimina" class="btn btn-danger" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
