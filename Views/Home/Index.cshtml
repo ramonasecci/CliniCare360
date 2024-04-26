@@ -132,72 +132,73 @@
     }
 
 
+    
+
+<div class="container">
     @if (User.IsInRole("admin"))
     {
-        <div class="d-flex justify-content-end mb-3 mt-3">
+        <div class="d-flex justify-content-end my-5 ">
             <div>
-                <a href="@Url.Action("AddPost", "Home")" class="btn btn-outline-primary custom-back-btn btn-lg">Aggiungi</a>
+                <a href="@Url.Action("AddPost", "Home")" class="btn btn-outline-info btn-md">Nuovo post</a>
             </div>
         </div>
 
     }
-
-    <div class="container">
-        <div class="row justify-content-md-center">
-            <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
-                <h2 class="display-5 mb-4 mb-md-5 text-center text-color-dark">Servizi in promozione</h2>
-                <hr class="w-50 mx-auto mb-4 mb-xl-9 border-dark-subtle">
-            </div>
+    <div class="row justify-content-md-center">
+        <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+            <h2 class="display-5 mb-4 mb-md-5 text-center text-color-dark">Servizi in promozione</h2>
+            <hr class="w-50 mx-auto mb-4 mb-xl-9 border-dark-subtle">
         </div>
+    </div>
 
-        <div class="row justify-content-center g-5">
-            @if (ViewBag.PostInfo != null)
+    <div class="row justify-content-center g-5">
+        @if (ViewBag.PostInfo != null)
+        {
+            foreach (var post in ViewBag.PostPromo)
             {
-                foreach (var post in ViewBag.PostPromo)
-                {
-                    <div class="col-sm-12 col-md-6 col-lg-4">
-                        <div id="card-promo" class="card h-100 d-flex flex-column justify-content-between border-0">
-                            @if (post.ImgPost != null && post.ImgPost.Length > 0)
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <div id="card-promo" class="card h-100 d-flex flex-column justify-content-between border-0">
+                        @if (post.ImgPost != null && post.ImgPost.Length > 0)
+                        {
+                            string imgBase64 = Convert.ToBase64String(post.ImgPost);
+                            string imgSrc = String.Format("data:image/jpeg;base64,{0}", imgBase64);
+                            <img src="@imgSrc" alt="@post.Titolo" class="card-img-top rounded-0" />
+                        }
+                        else
+                        {
+                            <img src="@Url.Content("~/Assets/uploads/slide3.jpg")" alt="@post.Titolo" class="card-img-top rounded-0" />
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">@post.Titolo</h5>
+                            <p class="card-text text-black">@post.Contenuto</p>
+                        </div>
+                        <div class="card-footer bg-transparent">
+
+                            @if (User.IsInRole("admin"))
                             {
-                                string imgBase64 = Convert.ToBase64String(post.ImgPost);
-                                string imgSrc = String.Format("data:image/jpeg;base64,{0}", imgBase64);
-                                <img src="@imgSrc" alt="@post.Titolo" class="card-img-top rounded-0" />
+                                <div class="d-flex justify-content-between">
+                                    <a href="@Url.Action("EditPost", "Home", new { id = post.PostId })" class=" nav-item btn btn-outline-secondary border-0">Modifica</a>
+                                    <a class="nav-item">
+                                        @Html.ActionLink("Elimina", "DeletePost", "Home", new { id = post.PostId }, new { @class = "btn btn-outline-danger border-0", @role = "button" })
+                                    </a>
+                                </div>
                             }
                             else
                             {
-                                <img src="@Url.Content("~/Assets/uploads/slide3.jpg")" alt="@post.Titolo" class="card-img-top rounded-0" />
+                                <div class="d-flex justify-content-end">
+                                    <a class="nav-item">@Html.ActionLink("I nostri servizi", "Index", "Prestazioni", new { area = "" }, new { @class = "btn text-color-dark  border-0" })</a>
+                                </div>
                             }
-                            <div class="card-body">
-                                <h5 class="card-title">@post.Titolo</h5>
-                                <p class="card-text text-black">@post.Contenuto</p>
-                            </div>
-                            <div class="card-footer bg-transparent">
-
-                                @if (User.IsInRole("admin"))
-                                {
-                                    <div class="d-flex justify-content-between">
-                                        <a href="@Url.Action("EditPost", "Home", new { id = post.PostId })" class=" nav-item btn btn-outline-secondary border-0">Modifica</a>
-                                        <a class="nav-item">
-                                            @Html.ActionLink("Elimina", "DeletePost", "Home", new { id = post.PostId }, new { @class = "btn btn-outline-danger border-0", @role = "button" })
-                                        </a>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="d-flex justify-content-end">
-                                        <a class="nav-item">@Html.ActionLink("I nostri servizi", "Index", "Prestazioni", new { area = "" }, new { @class = "btn text-color-dark  border-0" })</a>
-                                    </div>
-                                }
-                            </div>
-
                         </div>
+
                     </div>
+                </div>
 
-                }
             }
-        </div>
-
+        }
     </div>
+
+</div>
 
 
     @if (!User.IsInRole("admin"))

@@ -280,7 +280,6 @@
     <Content Include="Views\Prestazioni\Index.cshtml" />
     <Content Include="Views\Auth\Login.cshtml" />
     <Content Include="Views\Users\Create.cshtml" />
-    <Content Include="Views\Users\Delete.cshtml" />
     <Content Include="Views\Users\Profilo.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\ListaPazienti.cshtml" />
@@ -290,7 +289,6 @@
     <Content Include="Views\Appuntamenti\DettaglioApp.cshtml" />
     <Content Include="Views\Appuntamenti\ModificaApp.cshtml" />
     <Content Include="Views\Appuntamenti\CreaApp.cshtml" />
-    <Content Include="Views\Home\Medici.cshtml" />
     <Content Include="Views\Home\AddPost.cshtml" />
     <Content Include="Views\Home\EditPost.cshtml" />
     <Content Include="Views\Users\DettaglioPaziente.cshtml" />
