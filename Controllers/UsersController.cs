@@ -39,10 +39,12 @@ namespace CliniCare360.Controllers
             //la lista delle visite passate + btn per accedere alla prescrizione di quella visita
             ViewData["VisitePassate"] = db.Appuntamenti
                                   .Where(a => a.UserId == userId && a.Stato == "evaso")
+                                  .OrderByDescending(a => a.Data)
                                   .ToList();
             //la lista dei prossimi appuntamenti 
             ViewData["VisiteFuture"] = db.Appuntamenti
                                 .Where(a => a.UserId == userId && a.Stato == "prenotato")
+                                .OrderBy(a => a.Data)
                                 .ToList();
             //potra poi accedere alla modifica di alcun dati del profilo(esclusi nome cognome codice fiscale mail e password)
             return View(users);
@@ -187,11 +189,13 @@ namespace CliniCare360.Controllers
             ViewData["VisitePrenotate"] = db.Appuntamenti
                                             .Where(a => a.UserId == id && a.Stato == "prenotato")
                                             .Include(a => a.Prestazioni) 
+                                            .OrderBy(a => a.Data)
                                             .ToList();
 
             ViewData["VisitePassate"] = db.Appuntamenti
                                         .Where(a => a.UserId == id && a.Stato == "evaso")
-                                        .Include(a => a.Prestazioni) 
+                                        .Include(a => a.Prestazioni)
+                                        .OrderByDescending(a => a.Data)
                                         .ToList();
 
             return View("DettaglioPaziente", user);

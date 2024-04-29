@@ -32,6 +32,11 @@
                     <p class="card-text">
                         <strong>Data:</strong> @Model.Data.ToString("dd/MM/yyyy")<br>
                         <strong>Ora:</strong> @Model.Ora.ToString(@"hh\:mm")<br>
+                        <div>
+                            <strong>Descrizione:</strong> @Model.Prestazioni.Descrizione<br>
+
+
+                        </div>
                         @if (User.IsInRole("admin"))
                         {
                             <strong>Stato:</strong> @Model.Stato<br>
