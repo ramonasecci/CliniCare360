@@ -1,7 +1,7 @@
-# ClinicaCare360 - Sistema di Gestione Clinica
+# CliniCare360 - Sistema di Gestione Clinica
 
 ## Descrizione
-ClinicaCare360 è un'applicazione web progettata per facilitare la gestione efficiente di una clinica medica. L'applicazione permette una gestione completa degli appuntamenti, degli utenti registrati e del personale medico.
+CliniCare360 è un'applicazione web progettata per facilitare la gestione efficiente di una clinica medica. L'applicazione permette una gestione completa degli appuntamenti, degli utenti registrati e del personale medico.
 
 ## Caratteristiche
 
